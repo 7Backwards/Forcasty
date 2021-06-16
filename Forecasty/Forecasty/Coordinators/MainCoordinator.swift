@@ -21,9 +21,9 @@ class MainCoordinator: CoordinatorProtocol {
 
     func start() {
 
-        let homeViewModel = HomeViewModel()
-        let homeViewController = HomeViewController()
+        let homeViewModel = HomeViewModel(coordinator: self)
+        let homeViewController = HomeViewController(viewModel: homeViewModel)
 
-        navigationController.pushViewController(viewController, animated: true)
+        navigationController.pushViewController(homeViewController, animated: true)
     }
 }

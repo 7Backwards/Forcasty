@@ -20,6 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         let navigationController = UINavigationController()
+        let networkManager = NetworkManager()
 
         window = UIWindow(frame: UIScreen.main.bounds)
 
@@ -27,7 +28,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         window?.makeKeyAndVisible()
 
-        MainCoordinator(navigationController: navigationController).start()
+        MainCoordinator(
+            navigationController: navigationController,
+            networkManager: networkManager
+        ).start()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

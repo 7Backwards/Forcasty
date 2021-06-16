@@ -25,7 +25,6 @@ class HomeViewController: UIViewController {
 
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        setupUI()
     }
     
     required init?(coder: NSCoder) {
@@ -34,11 +33,12 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
+        setupUI()
     }
 
     private func setupUI() {
         tableView.alwaysBounceVertical = true
+        view.backgroundColor = .white
     }
 }
 

@@ -20,6 +20,8 @@
 		B0ADDB472679666200938A17 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B0ADDB462679666200938A17 /* LaunchScreen.storyboard */; };
 		B0B7229E267A289A0042D4D0 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B7229D267A289A0042D4D0 /* NetworkManager.swift */; };
 		B0B722A7267A29780042D4D0 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B722A6267A29780042D4D0 /* HomeViewModel.swift */; };
+		B0B7230C267A9D9D0042D4D0 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B7230B267A9D9D0042D4D0 /* String+Extensions.swift */; };
+		B0B72315267AA02D0042D4D0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B0B72317267AA02D0042D4D0 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +61,8 @@
 		B0ADDB462679666200938A17 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B0B7229D267A289A0042D4D0 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		B0B722A6267A29780042D4D0 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		B0B7230B267A9D9D0042D4D0 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		B0B72316267AA02D0042D4D0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +124,7 @@
 				B0ADDADD2679017000938A17 /* Assets.xcassets */,
 				B0ADDAE22679017000938A17 /* Info.plist */,
 				B0ADDADA2679016F00938A17 /* Forecasty.xcdatamodeld */,
+				B0B72317267AA02D0042D4D0 /* Localizable.strings */,
 			);
 			path = Forecasty;
 			sourceTree = "<group>";
@@ -163,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				B0ADDB34267960BD00938A17 /* UIView+Extensions.swift */,
+				B0B7230B267A9D9D0042D4D0 /* String+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -303,6 +309,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B0ADDADE2679017000938A17 /* Assets.xcassets in Resources */,
+				B0B72315267AA02D0042D4D0 /* Localizable.strings in Resources */,
 				B0ADDB472679666200938A17 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -328,6 +335,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0B7230C267A9D9D0042D4D0 /* String+Extensions.swift in Sources */,
 				B0ADDB35267960BD00938A17 /* UIView+Extensions.swift in Sources */,
 				B0B722A7267A29780042D4D0 /* HomeViewModel.swift in Sources */,
 				B0ADDAD62679016F00938A17 /* HomeViewController.swift in Sources */,
@@ -370,6 +378,17 @@
 			targetProxy = B0ADDAF32679017100938A17 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		B0B72317267AA02D0042D4D0 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B0B72316267AA02D0042D4D0 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		B0ADDAF92679017100938A17 /* Debug */ = {

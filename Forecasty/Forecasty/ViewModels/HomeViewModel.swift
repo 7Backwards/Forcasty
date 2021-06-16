@@ -9,14 +9,11 @@ import Foundation
 
 class HomeViewModel {
 
-    let networkManager: NetworkManager
     let coordinator: CoordinatorProtocol
 
     init(
-        networkManager: NetworkManager,
         coordinator: CoordinatorProtocol
     ) {
-        self.networkManager = networkManager
         self.coordinator = coordinator
     }
 
