@@ -14,6 +14,8 @@ protocol CoordinatorProtocol {
 
     var navigationController: UINavigationController { get set }
 
+    var session: Session { get set }
+
     // Starts the coordinator by presenting the viewController
     func start()
 
