@@ -9,7 +9,7 @@ Forecasty is an app that retrieves country information from an API and presents 
 - Logging using os_log
 - Unit test to make sure the json decoding is working as expected
 - Localization with support for Portuguese and English
-- UserDefaults to save the Api key
+- Api Key stored in UserDefaults for privacy concerns
 
 ## Project structure
 
