@@ -8,6 +8,7 @@
 import CoreData
 import Foundation
 import UIKit
+import OSLog
 
 class HomeViewModel {
 
@@ -39,7 +40,7 @@ class HomeViewModel {
                     let countries = countries,
                     let strongSelf = self
                 else {
-                    print("No countries retrieved")
+                    os_log("No countries retrieved", type: .info)
                     completion()
                     return
                 }
@@ -50,26 +51,27 @@ class HomeViewModel {
         }
     }
 
-    func fetchCellsInfo(completion: @escaping () -> Void) {
+    func fetchCellsInfo(completion: @escaping (Bool) -> Void) {
 
         self.session.requestManager.requestAllCountriesFromDB() { [weak self] countries in
 
-            guard
-                let countries = countries,
-                let strongSelf = self
-            else {
-                completion()
-                print("error")
+            guard let strongSelf = self else {
+                os_log("Something went wrong! Somehow we've reached here without 'self' value.", type: .error)
+                completion(false)
+                return
+            }
+
+            guard let countries = countries else {
+                os_log("Error unwrapping countries retrieved from database", type: .error)
+                completion(false)
                 return
             }
 
             if countries.count < 1 {
-                self?.updateCellsInfo() {
-                    completion()
-                }
+               completion(false)
             } else {
                 strongSelf.countriesData = countries
-                completion()
+                completion(true)
             }
         }
     }

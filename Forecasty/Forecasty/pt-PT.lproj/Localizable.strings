@@ -7,3 +7,9 @@
 */
 
 "countryDetails_Title" = "Detalhes de país";
+"countryDetails_Name" = "Nome";
+"countryDetails_Capital" = "Capital";
+"countryDetails_Region" = "Região";
+"countryDetails_Subregion" = "SubRegião";
+"countryDetails_Population" = "População";
+"countryDetails_Area" = "Área";

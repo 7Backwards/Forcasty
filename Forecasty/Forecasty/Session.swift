@@ -9,8 +9,12 @@ import Foundation
 
 class Session {
 
+    // MARK: Properties
+
     let constants: Constants
     let requestManager: RequestManager
+
+    // MARK: Lifecycle
 
     init(
         constants: Constants,

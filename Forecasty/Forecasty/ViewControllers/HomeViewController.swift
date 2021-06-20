@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import OSLog
 
 class HomeViewController: UIViewController {
 
@@ -35,7 +36,7 @@ class HomeViewController: UIViewController {
 
         guard let self = self else {
 
-            print("Something went wrong! Somehow we've reached here without 'self' value.")
+            os_log("Error unwrapping countries retrieved from database", type: .error)
 
             return UICollectionView()
         }
@@ -84,12 +85,22 @@ class HomeViewController: UIViewController {
 
     private func setupInfo() {
 
-        activityIndicator.startAnimating()
-        viewModel.fetchCellsInfo() { [weak self] in
-            DispatchQueue.main.async {
-                self?.activityIndicator.stopAnimating()
+        
+        viewModel.fetchCellsInfo() { [weak self] result in
+
+            if result {
+                self?.collectionView.reloadData()
+            } else {
+                DispatchQueue.main.async {
+                    self?.activityIndicator.startAnimating()
+                }
+                self?.viewModel.updateCellsInfo() {
+                    DispatchQueue.main.async {
+                        self?.activityIndicator.stopAnimating()
+                    }
+                    self?.collectionView.reloadData()
+                }
             }
-            self?.collectionView.reloadData()
         }
     }
 

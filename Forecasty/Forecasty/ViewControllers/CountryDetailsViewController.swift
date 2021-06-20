@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import OSLog
 
 class CountryDetailsViewModel {
 
@@ -17,6 +18,9 @@ class CountryDetailsViewModel {
     let containerViewCornerRadius: CGFloat = 20
     let outerConstraintConstant: CGFloat = 15
     let containerViewSize: CGFloat = 300
+    let containerViewShadowOpacity: Float = 1
+    let containerViewShadowRadius: CGFloat = 5
+    let containerViewShadowOffset: CGSize = CGSize(width: 0, height: 2)
 
     init(country: Country) {
         self.country = country
@@ -36,9 +40,9 @@ class CountryDetailsViewController: UIViewController {
 
         view.backgroundColor = .white
         view.layer.shadowColor = UIColor.lightGray.cgColor
-        view.layer.shadowOffset = CGSize(width: 0, height: 2.0)
-        view.layer.shadowRadius = 5.0
-        view.layer.shadowOpacity = 1.0
+        view.layer.shadowOffset = viewModel.containerViewShadowOffset
+        view.layer.shadowRadius = viewModel.containerViewShadowRadius
+        view.layer.shadowOpacity = viewModel.containerViewShadowOpacity
         view.layer.cornerRadius = viewModel.containerViewCornerRadius
 
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -61,6 +65,7 @@ class CountryDetailsViewController: UIViewController {
     lazy var popUpTitle: UILabel = {
         let label = UILabel()
         label.text = "countryDetails_Title".localized()
+        label.font = UIFont.boldSystemFont(ofSize: 20.0)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -68,36 +73,42 @@ class CountryDetailsViewController: UIViewController {
 
     lazy var nameLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     lazy var capitalLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     lazy var regionLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     lazy var subRegionLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     lazy var populationLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     lazy var areaLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -141,8 +152,8 @@ class CountryDetailsViewController: UIViewController {
             containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             containerView.widthAnchor.constraint(equalToConstant: viewModel.containerViewSize),
             containerView.heightAnchor.constraint(equalToConstant: viewModel.containerViewSize),
-            popUpTitle.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 15),
-            popUpTitle.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 15),
+            popUpTitle.topAnchor.constraint(equalTo: containerView.topAnchor, constant: viewModel.outerConstraintConstant),
+            popUpTitle.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: viewModel.outerConstraintConstant),
             popUpTitle.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -viewModel.outerConstraintConstant),
             verticalStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: viewModel.outerConstraintConstant),
             verticalStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -viewModel.outerConstraintConstant),
@@ -158,14 +169,16 @@ class CountryDetailsViewController: UIViewController {
             let region = viewModel.country.region,
             let subregion = viewModel.country.subregion
         else {
+            os_log("Error unwrapping country information", type: .error)
             return
         }
-        nameLabel.text = "Name: \(name)"
-        capitalLabel.text = "Capital: \(capital)"
-        regionLabel.text = "Region: \(region)"
-        subRegionLabel.text = "subRegion: \(subregion)"
-        populationLabel.text = "Population: \(viewModel.country.population)"
-        areaLabel.text = "Area: \(viewModel.country.area)"
+
+        nameLabel.text = "countryDetails_Name".localized() + ": \(name)"
+        capitalLabel.text = "countryDetails_Capital".localized() + ": \(capital)"
+        regionLabel.text = "countryDetails_Region".localized() + ": \(region)"
+        subRegionLabel.text = "countryDetails_Subregion".localized() + ": \(subregion)"
+        populationLabel.text = "countryDetails_Population".localized() + ": \(viewModel.country.population)"
+        areaLabel.text = "countryDetails_Area".localized() + ": \(viewModel.country.area)"
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

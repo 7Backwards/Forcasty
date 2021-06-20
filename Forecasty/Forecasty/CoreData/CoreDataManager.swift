@@ -8,6 +8,7 @@
 import CoreData
 import Foundation
 import UIKit
+import OSLog
 
 class CoreDataManager {
 
@@ -70,13 +71,13 @@ extension CoreDataManager {
         do {
             try _ = decoder.decode(Country.self, from: countryData)
         } catch {
-            print("error decoding country")
+            os_log("Error decoding country", type: .error)
         }
 
         do {
             try context.save()
         } catch {
-            print("error saving context")
+            os_log("Error saving context", type: .error)
         }
     }
 
@@ -89,7 +90,7 @@ extension CoreDataManager {
             completion(countries)
 
         } catch {
-            print("Fetch failed")
+            os_log("Fetching countries failed", type: .error)
             completion(nil)
         }
     }

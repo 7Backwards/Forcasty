@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import OSLog
 
 class NetworkService {
 
@@ -15,7 +16,7 @@ class NetworkService {
         let headers: [String: String]
     }
 
-    // MARK: Public methods
+    // MARK: Public Methods
 
     func request( requestParameters: RequestParameters, completion: @escaping (Result<Data, Error>) -> Void) {
 

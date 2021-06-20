@@ -17,10 +17,6 @@ class CountriesCollectionViewCellModel {
     let shadowRadius: CGFloat = 5
     let shadowOffset: CGSize = CGSize(width: 0, height: 2)
     let outerConstraintConstant: CGFloat = 15
-
-    init() {
-        
-    }
 }
 
 class CountriesCollectionViewCell: UICollectionViewCell {
@@ -64,7 +60,7 @@ class CountriesCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         setupUI()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
