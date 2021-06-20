@@ -6,3 +6,17 @@
 //
 
 import Foundation
+
+class Session {
+
+    let constants: Constants
+    let requestManager: RequestManager
+
+    init(
+        constants: Constants,
+        requestManager: RequestManager
+    ) {
+        self.constants = constants
+        self.requestManager = requestManager
+    }
+}

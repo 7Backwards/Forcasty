@@ -19,6 +19,9 @@ extension Country {
     @NSManaged public var name: String?
     @NSManaged public var capital: String?
     @NSManaged public var region: String?
+    @NSManaged public var area: Float
+    @NSManaged public var population: Int64
+    @NSManaged public var subregion: String?
 
 }
 

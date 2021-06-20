@@ -1,7 +1,9 @@
 /* 
-  Localizable.strings
+  Localizable (PT-pt).strings
   Forecasty
 
-  Created by Gonçalo Neves on 16/06/2021.
+  Created by Gonçalo Neves on 20/06/2021.
   
 */
+
+"countryDetails_Title" = "Detalhes de país";

@@ -10,6 +10,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    let coreDataManager = CoreDataManager()
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -20,7 +21,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         let navigationController = UINavigationController()
-        let networkManager = NetworkManager()
+        let networkService = NetworkService()
+        let constants = Constants()
+
+        let session = Session(
+            constants: constants,
+            requestManager: RequestManager(networkService: networkService, constants: constants, coreDataManager: coreDataManager)
+        )
 
         window = UIWindow(frame: UIScreen.main.bounds)
 
@@ -30,7 +37,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         MainCoordinator(
             navigationController: navigationController,
-            networkManager: networkManager
+            session: session
         ).start()
     }
 
@@ -62,7 +69,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
 
         // Save changes in the application's managed object context when the application transitions to the background.
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+        coreDataManager.saveContext()
     }
 
 

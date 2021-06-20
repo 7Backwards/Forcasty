@@ -10,31 +10,35 @@ import Foundation
 import CoreData
 
 @objc(Country)
-public class Country: NSManagedObject, Codable {
+class Country: NSManagedObject, Decodable {
 
     enum CodingKeys: String, CodingKey {
         case name = "name"
         case capital = "capital"
         case region = "region"
+        case subregion = "subregion"
+        case population = "population"
+        case area = "area"
     }
 
-    required convenience public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+    required convenience init(from decoder: Decoder) throws {
 
-        self.init()
+        guard
+            let context = decoder.userInfo[.context] as? NSManagedObjectContext,
+            let entity = NSEntityDescription.entity(forEntityName: "Country", in: context)
+        else {
+          fatalError("fatal error")
+        }
+
+        self.init(entity: entity, insertInto: context)
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
 
         self.name = try container.decodeIfPresent(String.self, forKey: .name)
         self.capital = try container.decodeIfPresent(String.self, forKey: .capital)
         self.region = try container.decodeIfPresent(String.self, forKey: .region)
+        self.area = try container.decodeIfPresent(Float.self, forKey: .area) ?? 0
+        self.subregion = try container.decodeIfPresent(String.self, forKey: .subregion)
+        self.population = try container.decodeIfPresent(Int64.self, forKey: .population) ?? 0
     }
-
-    // MARK: - Encodable
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(name, forKey: .name)
-        try container.encode(capital, forKey: .capital)
-        try container.encode(region, forKey: .region)
-    }
-    
 }
