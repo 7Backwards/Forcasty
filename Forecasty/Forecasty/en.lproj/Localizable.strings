@@ -1,0 +1,15 @@
+/* 
+  Localizable (EN).strings
+  Forecasty
+
+  Created by Gonçalo Neves on 20/06/2021.
+  
+*/
+
+"countryDetails_Title" = "Country Details";
+"countryDetails_Name" = "Name";
+"countryDetails_Capital" = "Capital";
+"countryDetails_Region" = "Region";
+"countryDetails_Subregion" = "Subregion";
+"countryDetails_Population" = "Population";
+"countryDetails_Area" = "Area";
