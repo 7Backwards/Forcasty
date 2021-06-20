@@ -18,22 +18,51 @@ class HomeViewController: UIViewController {
     lazy var collectionViewLayout: UICollectionViewFlowLayout = {
         
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: view.frame.width - (2 * viewModel.horizontalConstraintConstant), height: viewModel.cellHeight)
-        layout.minimumInteritemSpacing = viewModel.collectionViewLayoutMinimumInteritemSpacing
+        let width = view.frame.width / 2 - (2 * viewModel.horizontalConstraintConstant)
+        layout.itemSize = CGSize(width: width, height: width)
+
         return layout
     }()
 
-    lazy var collectionView: UICollectionView = {
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        refreshControl.tintColor = .lightGray
+        return refreshControl
+    }()
+
+    lazy var collectionView: UICollectionView = { [weak self] in
+
+        guard let self = self else {
+
+            print("Something went wrong! Somehow we've reached here without 'self' value.")
+
+            return UICollectionView()
+        }
 
         let collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: collectionViewLayout)
         collectionView.alwaysBounceVertical = true
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .white
         collectionView.register(CountriesCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.refreshControl = refreshControl
+        collectionView.addSubview(refreshControl)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.dataSource = self
         collectionView.delegate = self
         return collectionView
     }()
+
+    lazy var activityIndicator: UIActivityIndicatorView = {
+
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .large
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        return activityIndicator
+    }()
+
+    // MARK: Lifecycle
 
     init(viewModel: HomeViewModel) {
 
@@ -47,9 +76,19 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupUI()
-        viewModel.updateCellsInfo() { [weak self] in
+        setupInfo()
+    }
+
+    // MARK: Private methods
+
+    private func setupInfo() {
+
+        activityIndicator.startAnimating()
+        viewModel.fetchCellsInfo() { [weak self] in
+            DispatchQueue.main.async {
+                self?.activityIndicator.stopAnimating()
+            }
             self?.collectionView.reloadData()
         }
     }
@@ -60,15 +99,24 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .white
 
         view.addSubview(collectionView)
-
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(activityIndicator)
 
         NSLayoutConstraint.activate ([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: viewModel.horizontalConstraintConstant),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: viewModel.horizontalConstraintConstant),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -viewModel.horizontalConstraintConstant)
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -viewModel.horizontalConstraintConstant),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
+    }
+
+    @objc private func handleRefresh(_ refreshControl: UIRefreshControl) {
+
+        viewModel.updateCellsInfo() { [weak self] in
+            self?.collectionView.reloadData()
+            refreshControl.endRefreshing()
+        }
     }
 }
 

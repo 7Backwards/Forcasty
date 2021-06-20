@@ -66,7 +66,6 @@ extension CoreDataManager {
         let context = persistentContainer.viewContext
 
         let decoder = JSONDecoder()
-//        decoder.userInfo[.context] = context
 
         do {
             try _ = decoder.decode(Country.self, from: countryData)

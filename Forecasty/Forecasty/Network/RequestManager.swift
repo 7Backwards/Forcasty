@@ -32,9 +32,9 @@ class RequestManager {
         self.coreDataManager = coreDataManager
     }
 
-    // MARK: Request methods
+    // MARK: Public methods
 
-    func requestUpdateAllCountries() {
+    func requestUpdateAllCountries(completion: @escaping () -> Void) {
         networkService.request(
             requestParameters: NetworkService.RequestParameters(
                 url: constants.apiGetAllCountriesURL,
@@ -51,11 +51,8 @@ class RequestManager {
 
                     decoder.userInfo[.context] = self?.coreDataManager.persistentContainer.viewContext
 
-                    let countries = try decoder.decode([Country].self, from: data)
+                    _ = try decoder.decode([Country].self, from: data)
 
-                    for country in countries {
-                        print(country)
-                    }
                     DispatchQueue.main.async { [weak self] in
 
                         guard let self = self else {
@@ -64,13 +61,16 @@ class RequestManager {
                             return
                         }
                         self.coreDataManager.saveContext()
+                        completion()
                     }
                 } catch(let error) {
                     print(error)
+                    completion()
                 }
                
             case .failure(let error):
                 print(error)
+                completion()
             }
         }
     }

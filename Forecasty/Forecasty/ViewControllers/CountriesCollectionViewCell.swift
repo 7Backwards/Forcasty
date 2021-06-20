@@ -8,16 +8,28 @@
 import Foundation
 import UIKit
 
+class CountriesCollectionViewCellModel {
+
+    // MARK: Properties
+
+    let cornerRadius: CGFloat = 10
+    let shadowOpacity: Float = 1
+    let shadowRadius: CGFloat = 5
+    let shadowOffset: CGSize = CGSize(width: 0, height: 2)
+    let outerConstraintConstant: CGFloat = 15
+
+    init() {
+        
+    }
+}
+
 class CountriesCollectionViewCell: UICollectionViewCell {
 
-    lazy var horizontalStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.distribution = .fillProportionally
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
+    // MARK: Properties
+
+    let viewModel = CountriesCollectionViewCellModel()
+
+    // MARK: UI
 
     lazy var verticalStackView: UIStackView = {
         let stackView = UIStackView()
@@ -46,6 +58,8 @@ class CountriesCollectionViewCell: UICollectionViewCell {
         return label
     }()
 
+    // MARK: Lifecycle
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -55,36 +69,32 @@ class CountriesCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: Private methods
+
     private func setupUI() {
 
         layer.shadowColor = UIColor.lightGray.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 2.0)
-        layer.shadowRadius = 5.0
-        layer.shadowOpacity = 1.0
+        layer.shadowOffset = viewModel.shadowOffset
+        layer.shadowRadius = viewModel.shadowRadius
+        layer.shadowOpacity = viewModel.shadowOpacity
         layer.masksToBounds = false
         layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: contentView.layer.cornerRadius).cgPath
         layer.backgroundColor = UIColor.clear.cgColor
 
         contentView.layer.masksToBounds = true
-        layer.cornerRadius = 10
+        layer.cornerRadius = viewModel.cornerRadius
         clipsToBounds = true
-        contentView.addSubviews(horizontalStackView)
 
-        horizontalStackView.addArrangedSubview(nameLabel)
-        horizontalStackView.addArrangedSubview(verticalStackView)
+        addSubview(verticalStackView)
+        verticalStackView.addArrangedSubview(nameLabel)
         verticalStackView.addArrangedSubview(capitalLabel)
         verticalStackView.addArrangedSubview(regionLabel)
 
         NSLayoutConstraint.activate([
-            horizontalStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
-            horizontalStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
-            horizontalStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 15),
-            horizontalStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -15)
+            verticalStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: viewModel.outerConstraintConstant),
+            verticalStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -viewModel.outerConstraintConstant),
+            verticalStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: viewModel.outerConstraintConstant),
+            verticalStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -viewModel.outerConstraintConstant)
         ])
-    }
-
-    func updateInfo(country: Country) {
-        print(country.name)
-        nameLabel.text = country.name
     }
 }
